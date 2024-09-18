@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Finalizar Compra</h1>
+        <nav>
+            <a href="index.html"><img src="inicio.png" alt="Início" class="icon"> Início</a>
+            <a href="carrinho.html"><img src="carrinho.png" alt="Carrinho" class="icon"> Carrinho</a>
+            <a href="contato.html"><img src="contato.png" alt="Contato" class="icon"> Contato</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="finalizar-compra">
+            <h2>Informações de Entrega</h2>
+            <form id="form-compra">
+                <label for="pais">País:</label>
+                <input type="text" id="pais" name="pais" value="Brasil" readonly>
+
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="estado" required>
+
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade" required>
+
+                <label for="bairro">Bairro e Rua:</label>
+                <input type="text" id="bairro" name="bairro" required>
+
+                <label for="numero">Número da Casa:</label>
+                <input type="text" id="numero" name="numero" required>
+
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" required>
+
+                <label for="foto-comprovante">Foto do Comprovante:</label>
+                <input type="file" id="foto-comprovante" name="foto-comprovante" accept="image/*" required>
+
+                <div class="qrcode">
+                    <h3>QR Code para Pagamento:</h3>
+                    <img src="qrcode.png" alt="QR Code">
+                </div>
+
+                <button type="submit" id="btn-finalizar" disabled>Finalizar Compra</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Loja de Acessórios. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="scriptcomprar.js"></script>
+</body>
+</html>
