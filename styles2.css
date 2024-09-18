@@ -1,6 +1,3 @@
-/* styles.css */
-
-/* Fontes e Estilo Global */
 body {
     font-family: 'Playpen Sans', sans-serif;
     margin: 0;
@@ -52,7 +49,6 @@ nav a:hover {
     vertical-align: middle;
 }
 
-
 /* Estilos para o Main */
 main {
     padding: 20px;
@@ -60,25 +56,28 @@ main {
     flex: 1; /* Permite que o main expanda para preencher o espaço disponível */
 }
 
-/* Estilos para a Página Principal (index.html) */
-.categoria {
-    margin-bottom: 30px;
+.carrinho {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.categoria h2 {
+.carrinho h2 {
     font-family: 'Playpen Sans', sans-serif;
     color: #007BFF;
     border-bottom: 3px solid #007BFF;
     padding-bottom: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     font-size: 2em;
 }
 
 .items {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .item {
@@ -122,8 +121,36 @@ main {
     font-weight: bold;
 }
 
-.btn-adicionar {
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.total p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.btn {
     background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-remover {
+    background-color: #FF0000;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -133,20 +160,7 @@ main {
     font-size: 1em;
     font-weight: bold;
 }
-
-.btn-adicionar:hover {
-    background-color: #0056b3;
+.btn-remover:hover {
+    background-color: #8b0000;
     transform: scale(1.05);
-}
-
-.banner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh; /* O banner vai ocupar 50% da altura da tela */
-  background-size: cover; /* Ajusta o banner para cobrir o container sem distorção */
-  background-position: center; /* Centraliza a imagem */
-  background-repeat: no-repeat;
-  color: white;
-  text-align: center;
 }
