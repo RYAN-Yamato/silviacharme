@@ -1,197 +1,329 @@
-/* Reset básico */
-* {
+/* styles.css */
+
+/* Fontes e Estilo Global */
+body {
+    font-family: 'Great Vibes', cursive;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    color: #333;
+    background-color: #f9f9f9;
+    min-height: 100vh; /* Garantir que o corpo ocupe pelo menos a altura da tela */
+    display: flex;
+    flex-direction: column;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Estilo do Header */
+header {
+    background-color: #ffffff;
+    padding: 0;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5em;
+    margin: 20px 0;
     color: #333;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
-}
-
 nav {
-    margin-top: 1em;
+    margin: 10px 0;
 }
 
 nav a {
-    color: #fff;
     text-decoration: none;
-    margin: 0 1em;
+    color: #555;
+    margin: 0 15px;
+    font-weight: bold;
     display: inline-flex;
     align-items: center;
+    transition: color 0.3s;
 }
 
-nav .icon {
+nav a:hover {
+    color: #007BFF;
+}
+
+.icon {
     width: 24px;
     height: 24px;
-    margin-right: 0.5em;
+    vertical-align: middle;
 }
 
+/* Estilos para o Main */
 main {
-    padding: 2em;
-    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    flex: 1; /* Permite que o main expanda para preencher o espaço disponível */
 }
 
+/* Estilos para a Página Principal (index.html) */
 .categoria {
-    margin-bottom: 2em;
+    margin-bottom: 30px;
+}
+
+.categoria h2 {
+    font-family: 'Great Vibes', cursive;
+    color: #007BFF;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
 }
 
 .items {
     display: flex;
-    overflow-x: auto;
-    gap: 1em;
-    padding-bottom: 1em;
+    flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
 }
 
 .item {
-    background: #fff;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 1em;
-    width: 220px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex-shrink: 0;
+    overflow: hidden;
+    width: 300px;
+	height: 150px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .item img {
-    max-width: 100%;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 0.5em;
+    width: 100%;
+    height: auto;
 }
 
 .item-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 15px;
+    text-align: center;
+}
+
+.item-info p {
+    margin: 10px 0;
+    font-size: 1.1em;
 }
 
 .btn-adicionar {
-    background: #007bff;
+    background-color: #007BFF;
     color: #fff;
     border: none;
-    padding: 0.5em 1em;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn-adicionar:hover {
-    background: #0056b3;
-}
-
-.carrinho, .finalizar-compra, .contato {
-    background: #fff;
-    padding: 2em;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    max-width: 800px;
-}
-
-.carrinho .item {
-    display: flex;
-    align-items: center;
-    padding: 1em;
-    border-bottom: 1px solid #ddd;
-    justify-content: space-between;
-}
-
-.carrinho .item img {
-    max-width: 50px;
-    margin-right: 1em;
-}
-
-.carrinho .item button {
-    background: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 0.5em;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.carrinho .item button:hover {
-    background: #c82333;
-}
-
-.total {
-    margin-top: 1em;
-}
-
-.finalizar-compra form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.finalizar-compra label {
-    margin-bottom: 0.5em;
-}
-
-.finalizar-compra input {
-    width: 100%;
-    max-width: 400px;
-    padding: 0.5em;
-    margin-bottom: 1em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.finalizar-compra button {
-    background: #007bff;
-    color: #fff;
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.finalizar-compra button:disabled {
-    background: #6c757d;
-    cursor: not-allowed;
-}
-
-.finalizar-compra button:hover {
-    background: #0056b3;
-}
-
-.qrcode {
-    margin: 1em 0;
-}
-
-.contato ul {
-    list-style: none;
-    padding: 0;
-}
-
-.contato li {
-    margin-bottom: 1em;
-}
-
-.contato a {
-    color: #007bff;
-    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1em;
     font-weight: bold;
 }
 
-.contato a:hover {
-    text-decoration: underline;
+.btn-remover {
+    background-color: #FF0000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.btn-adicionar:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Estilos para a Página do Carrinho (carrinho.html) */
+.carrinho {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrinho h2 {
+    font-family: 'Great Vibes', cursive;
+    color: #007BFF;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-info {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.item-info p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.item-info .btn-remover {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.9em;
+}
+
+.item-info .btn-remover:hover {
+    background-color: #c82333;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.total p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Estilos para a Página de Finalização de Compra (finalizar-compra.html) */
+.finalizar-compra {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.finalizar-compra h2 {
+    font-family: 'Great Vibes', cursive;
+    color: #007BFF;
+    border-bottom: 3px solid #007BFF;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+input[type="text"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.qrcode {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.qrcode img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+/* Rodapé */
+footer {
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    border-top: 2px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    font-size: 0.9em;
+    color: #555;
+    position: relative;
+    bottom: 0;
+}
+
+/* Garantir que o rodapé esteja sempre no fundo */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.banner {
+	scale: 80%;
 }

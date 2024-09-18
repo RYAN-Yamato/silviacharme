@@ -1,76 +1,62 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const formCompra = document.getElementById('form-compra');
-    const btnFinalizar = document.getElementById('btn-finalizar');
+// scriptcomprar.js
 
-    if (!formCompra || !btnFinalizar) {
-        console.error('Alguns elementos do DOM não foram encontrados.');
-        return;
+document.addEventListener('DOMContentLoaded', () => {
+    const botaoFinalizar = document.getElementById('btn-finalizar');
+
+    // Função para verificar se todos os campos estão preenchidos
+    function verificarCampos() {
+        const campos = document.querySelectorAll('#form-compra input[required]');
+        const todosPreenchidos = Array.from(campos).every(campo => campo.value.trim() !== '');
+        botaoFinalizar.disabled = !todosPreenchidos;
     }
 
-    function atualizarBotaoFinalizar() {
-        const estado = document.getElementById('estado').value;
-        const cidade = document.getElementById('cidade').value;
-        const bairro = document.getElementById('bairro').value;
-        const numero = document.getElementById('numero').value;
-        const telefone = document.getElementById('telefone').value;
-        const fotoComprovante = document.getElementById('foto-comprovante').files.length > 0;
-
-        btnFinalizar.disabled = !(estado && cidade && bairro && numero && telefone && fotoComprovante);
-    }
-
-    formCompra.addEventListener('input', atualizarBotaoFinalizar);
-
-    formCompra.addEventListener('submit', function(event) {
+    // Função para enviar dados ao webhook
+    function finalizarCompra(event) {
         event.preventDefault();
 
-        const pais = document.getElementById('pais').value;
-        const estado = document.getElementById('estado').value;
-        const cidade = document.getElementById('cidade').value;
-        const bairro = document.getElementById('bairro').value;
-        const numero = document.getElementById('numero').value;
-        const telefone = document.getElementById('telefone').value;
-
-        let total = 0;
+        const formData = new FormData(document.getElementById('form-compra'));
         const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        carrinho.forEach(item => total += item.preco);
+        const total = carrinho.reduce((acc, item) => acc + item.preco, 0).toFixed(2);
 
-        const dados = {
-            content: 'Nova compra!',
-            embeds: [{
-                title: 'Detalhes da Compra',
-                fields: [
-                    { name: 'País', value: pais, inline: true },
-                    { name: 'Estado', value: estado, inline: true },
-                    { name: 'Cidade', value: cidade, inline: true },
-                    { name: 'Bairro e Rua', value: bairro, inline: true },
-                    { name: 'Número da Casa', value: numero, inline: true },
-                    { name: 'Telefone', value: telefone, inline: true },
-                    { name: 'Total', value: `R$${total.toFixed(2)}`, inline: true }
-                ]
-            }]
+        if (carrinho.length === 0) {
+            alert('O carrinho está vazio.');
+            return;
+        }
+
+        const compra = {
+            endereco: {
+                pais: formData.get('pais'),
+                estado: formData.get('estado'),
+                cidade: formData.get('cidade'),
+                bairro: formData.get('bairro'),
+                numero: formData.get('numero'),
+            },
+            telefone: formData.get('telefone'),
+            comprovante: formData.get('foto-comprovante').name,
+            total: `R$ ${total}`,
+            itens: carrinho.map(item => `${item.nome} - R$${item.preco.toFixed(2)}`)
         };
 
-        fetch('https://discord.com/api/webhooks/1286002915995029515/mDXF-1pZZ1ecJXPJNmSW9Wcqh8YB6zfecWAZGllnS3EorKYb1x3TuPmsqH3MtrTCQg_Y', {
+        fetch('https://discord.com/api/webhooks/1286048644096856126/ql0fwTxPxJYqXdMKe3rQXEgBtpkKR4t4rqtHjjcH2BvQaeLRFW9pWc3GmA8VY8klqeW7', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dados)
-        }).then(response => {
-            if (response.ok) {
-                return response.json(); // Tenta converter a resposta em JSON
-            } else {
-                throw new Error('Erro na resposta da API: ' + response.statusText);
-            }
-        }).then(data => {
-            // Processa a resposta JSON se disponível
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(compra),
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro ao enviar dados para o webhook');
+            return response.json();
+        })
+        .then(data => {
             alert('Compra finalizada com sucesso!');
             localStorage.removeItem('carrinho');
-            window.location.href = 'index.html';
-        }).catch(error => {
-            // Lida com qualquer erro ocorrido
-            alert('Erro ao enviar os dados!');
-            console.error('Error:', error);
+        })
+        .catch(error => {
+            console.error('Erro ao finalizar compra:', error);
+            alert('Erro ao finalizar a compra. Tente novamente.');
         });
-    });
+    }
+
+    // Adicionar eventos
+    document.getElementById('form-compra').addEventListener('input', verificarCampos);
+    document.getElementById('form-compra').addEventListener('submit', finalizarCompra);
 });

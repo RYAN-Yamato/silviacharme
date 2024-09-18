@@ -1,44 +1,59 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const carrinhoItens = document.getElementById('carrinho-itens');
-    const totalElement = document.getElementById('total');
-
-    if (!carrinhoItens || !totalElement) {
-        console.error('Alguns elementos do DOM não foram encontrados.');
-        return;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM carregado, scripticar.js executando');
 
     function atualizarCarrinho() {
-        const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        carrinhoItens.innerHTML = '';
+        const carrinhoItens = document.getElementById('carrinho-itens');
+        const totalElement = document.getElementById('total');
+
+        // Obter itens do carrinho do localStorage
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
         let total = 0;
 
+        // Limpar itens do carrinho
+        carrinhoItens.innerHTML = '';
+
+        // Adicionar itens ao carrinho na página
         carrinho.forEach((item, index) => {
             total += item.preco;
-            const itemElement = document.createElement('div');
-            itemElement.classList.add('item');
-            itemElement.innerHTML = `
-                <img src="exemplo${item.preco}.png" alt="${item.nome}">
-                <div class="item-info">
-                    <p>${item.nome}</p>
-                    <p>R$${item.preco.toFixed(2)}</p>
-                    <button data-index="${index}" class="btn-remover">Remover</button>
-                </div>
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+
+            itemDiv.innerHTML = `
+                <p>${item.nome}</p>
+                <p>R$ ${item.preco.toFixed(2)}</p>
+                <button class="btn-remover" data-index="${index}">Remover</button>
             `;
-            carrinhoItens.appendChild(itemElement);
+
+            carrinhoItens.appendChild(itemDiv);
         });
 
-        totalElement.textContent = `R$${total.toFixed(2)}`;
+        // Exibir total
+        totalElement.textContent = `R$ ${total.toFixed(2)}`;
+
+        // Adiciona evento de clique para os botões "Remover"
+        const removerBotoes = document.querySelectorAll('.btn-remover');
+        removerBotoes.forEach(button => {
+            button.addEventListener('click', removerItem);
+        });
     }
 
-    carrinhoItens.addEventListener('click', event => {
-        if (event.target.classList.contains('btn-remover')) {
-            const index = event.target.getAttribute('data-index');
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            carrinho.splice(index, 1);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            atualizarCarrinho();
-        }
-    });
+    function removerItem(event) {
+        // Pegar o índice do item a ser removido do atributo data-index
+        const index = event.target.getAttribute('data-index');
+        
+        // Obter o carrinho do localStorage
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        // Remover o item do array com base no índice
+        carrinho.splice(index, 1);
+
+        // Atualizar o localStorage com o novo array
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+        // Atualizar a exibição do carrinho
+        atualizarCarrinho();
+    }
 
     atualizarCarrinho();
 });
