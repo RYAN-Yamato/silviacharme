@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const bairro = document.getElementById('bairro').value;
         const numero = document.getElementById('numero').value;
         const telefone = document.getElementById('telefone').value;
-        const fotoComprovante = document.getElementById('foto-comprovante').files[0];
 
         let total = 0;
         const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
@@ -47,41 +46,30 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: 'Número da Casa', value: numero, inline: true },
                     { name: 'Telefone', value: telefone, inline: true },
                     { name: 'Total', value: `R$${total.toFixed(2)}`, inline: true }
-                ],
-                image: {
-                    url: 'attachment://comprovante.jpg'
-                }
+                ]
             }]
         };
 
-        const formData = new FormData();
-        formData.append('file', fotoComprovante, 'comprovante.jpg');
-
-        fetch('YOUR_DISCORD_WEBHOOK_URL', { // Substitua pelo URL do seu webhook
+        fetch('https://discord.com/api/webhooks/1286002915995029515/mDXF-1pZZ1ecJXPJNmSW9Wcqh8YB6zfecWAZGllnS3EorKYb1x3TuPmsqH3MtrTCQg_Y', {
             method: 'POST',
-            body: formData
-        }).then(response => response.json())
-        .then(data => {
-            const imageUrl = data.attachments[0].url;
-            dados.embeds[0].image.url = imageUrl;
-
-            return fetch('https://discord.com/api/webhooks/1286002929551282278/AoD4vJN0j1kDvXfLJ1pBPVxgJjsleNpLbzkOhru9CxBEQDJWkGLS91wnpa5TGN5SUz5g', { // Substitua pelo URL do seu webhook
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dados)
-            });
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
         }).then(response => {
             if (response.ok) {
-                alert('Compra finalizada com sucesso!');
-                localStorage.removeItem('carrinho');
-                window.location.href = 'index.html';
+                return response.json(); // Tenta converter a resposta em JSON
             } else {
-                alert('Erro ao finalizar compra!');
+                throw new Error('Erro na resposta da API: ' + response.statusText);
             }
+        }).then(data => {
+            // Processa a resposta JSON se disponível
+            alert('Compra finalizada com sucesso!');
+            localStorage.removeItem('carrinho');
+            window.location.href = 'index.html';
         }).catch(error => {
-            alert('Erro ao enviar a foto do comprovante!');
+            // Lida com qualquer erro ocorrido
+            alert('Erro ao enviar os dados!');
             console.error('Error:', error);
         });
     });
