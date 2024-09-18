@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Definindo o webhook do Discord
-    const webhookUrl = 'SUA_URL_DO_WEBHOOK';
+    const webhookUrl = 'https://discord.com/api/webhooks/1286048644096856126/ql0fwTxPxJYqXdMKe3rQXEgBtpkKR4t4rqtHjjcH2BvQaeLRFW9pWc3GmA8VY8klqeW7';
 
     // Função para habilitar/desabilitar o botão de finalizar compra
     const form = document.getElementById('form-compra');
