@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Definindo o webhook do Discord
-    const webhookUrl = 'https://discord.com/api/webhooks/1286048644096856126/ql0fwTxPxJYqXdMKe3rQXEgBtpkKR4t4rqtHjjcH2BvQaeLRFW9pWc3GmA8VY8klqeW7';
+    const webhookUrl = 'SUA_URL_DO_WEBHOOK';
 
     // Função para habilitar/desabilitar o botão de finalizar compra
     const form = document.getElementById('form-compra');
     const finalizarButton = document.getElementById('btn-finalizar');
-    
+
     form.addEventListener('input', () => {
         const inputsValidos = form.checkValidity();
         finalizarButton.disabled = !inputsValidos; // Habilita/desabilita o botão conforme a validade do formulário
@@ -36,8 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Criar a lista de acessórios comprados
         const itemsComprados = carrinho.map(item => `**${item.nome}** - R$ ${item.preco.toFixed(2)}`).join('\n');
 
-        // Dados para enviar no webhook
-        const data = {
+        // Verificar se uma imagem de comprovante foi anexada
+        const comprovante = formData.get('foto-comprovante');
+        if (!comprovante) {
+            alert('Por favor, anexe o comprovante de pagamento.');
+            return;
+        }
+
+        // Criar uma nova requisição multipart para enviar o comprovante como attachment
+        const requestFormData = new FormData();
+        requestFormData.append('file', comprovante); // Adiciona o comprovante
+
+        // Adiciona a mensagem ao webhook
+        requestFormData.append('payload_json', JSON.stringify({
             username: "Nova Compra",
             embeds: [{
                 title: "Detalhes da Compra",
@@ -82,17 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         value: `R$ ${total.toFixed(2)}`,
                         inline: true
                     }
-                ]
+                ],
+                image: {
+                    url: "attachment://"+comprovante.name // Nome do arquivo para exibir como imagem no embed
+                }
             }]
-        };
+        }));
 
         // Enviar os dados para o webhook
         fetch(webhookUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            body: requestFormData
         })
         .then(response => {
             if (response.ok) {
